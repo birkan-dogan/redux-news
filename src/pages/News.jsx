@@ -5,7 +5,31 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { CardMedia } from "@mui/material";
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setLoading, clearLoading } from "../redux/actions/appActions";
 const News = () => {
+  const dispatch = useDispatch();
+  const url =
+    "https://newsapi.org/v2/everything?" +
+    "q=Apple&" +
+    "sortBy=popularity&" +
+    "apiKey=785d8add6121478b9cddb28bcaea90f8";
+  const getNews = async () => {
+    try {
+      dispatch(setLoading());
+      const { data } = await axios(url);
+      console.log(data.articles);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(clearLoading());
+    }
+  };
+  useEffect(() => {
+    getNews();
+  }, []);
   return (
     <Box
       display="flex"
