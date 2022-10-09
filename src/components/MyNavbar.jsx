@@ -9,8 +9,10 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 const MyNavbar = () => {
-  const currentUser = true;
+  // const currentUser = true;
+  const { currentUser } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
