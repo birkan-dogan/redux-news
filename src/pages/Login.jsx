@@ -7,12 +7,21 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const currentUser = true;
+  // const currentUser = true;
+  const { currentUser } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
   return (
     <Container maxWidth="sm">
       <Box
