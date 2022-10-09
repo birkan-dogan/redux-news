@@ -8,32 +8,17 @@ import { CardMedia } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading, clearLoading } from "../redux/actions/appActions";
+// import { setLoading, clearLoading } from "../redux/actions/appActions";
 import image from "../assets/loading.gif";
-import { setNewsList } from "../redux/actions/newsActions";
+// import { setNewsList } from "../redux/actions/newsActions";
+import getNews from "../redux/thunk/newsThunk";
 const News = () => {
   const dispatch = useDispatch();
   const { newsList } = useSelector((state) => state.news);
   const loading = useSelector((state) => state.app.loading);
-  const url =
-    "https://newsapi.org/v2/everything?" +
-    "q=android&" +
-    "sortBy=popularity&" +
-    "apiKey=785d8add6121478b9cddb28bcaea90f8";
-  const getNews = async () => {
-    try {
-      dispatch(setLoading());
-      const { data } = await axios(url);
-      // console.log(data.articles);
-      dispatch(setNewsList(data.articles));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(clearLoading());
-    }
-  };
+
   useEffect(() => {
-    getNews();
+    dispatch(getNews); // we are giving async function to dispatch as a parameter.
   }, []);
 
   return (
