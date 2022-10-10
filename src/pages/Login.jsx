@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, loginWithGoogle } from "../utils/firebaseUtil";
+import { toastErrorNotify, toastSuccessNotify } from "../utils/toastNotify";
 
 const Login = () => {
   // const currentUser = true;
@@ -27,8 +28,11 @@ const Login = () => {
 
   const handleLogin = () => {
     login(email, password)
-      .then(() => navigate("/"))
-      .catch((error) => alert(error));
+      .then(() => {
+        navigate("/");
+        toastSuccessNotify("Welcome 🎉");
+      })
+      .catch((error) => toastErrorNotify(error.message));
   };
 
   const handleGoogleSingIn = () => {

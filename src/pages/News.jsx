@@ -58,7 +58,7 @@ const News = () => {
           ))}
         </Box>
       )}
-      <Box display="flex" justifyContent="center">
+      <Box display="flex" justifyContent="center" marginBottom="3rem">
         <Pagination
           count={count}
           size="large"

@@ -8,6 +8,8 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 
+import { toastSuccessNotify, toastErrorNotify } from "./toastNotify";
+
 const app = initializeApp({
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
@@ -23,6 +25,7 @@ export const googleProvider = new GoogleAuthProvider();
 
 // create new user
 export const signup = (email, password) => {
+  toastSuccessNotify("Registered Successfully");
   return createUserWithEmailAndPassword(auth, email, password);
 };
 
@@ -34,13 +37,16 @@ export const login = (email, password) => {
 // logout process
 export const logout = () => {
   signOut(auth);
+  toastSuccessNotify("We'll miss you 😔");
 };
 
 export const loginWithGoogle = () => {
   googleProvider.setCustomParameters({ prompt: "select_account" });
   signInWithPopup(auth, googleProvider)
-    .then((result) => {})
+    .then((result) => {
+      toastSuccessNotify("Welcome 🎉");
+    })
     .catch((error) => {
-      console.log(error);
+      toastErrorNotify(error.message);
     });
 };

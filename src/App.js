@@ -3,6 +3,7 @@ import { setCurrentUser } from "./redux/actions/authActions";
 import Router from "./router/Router";
 import { auth } from "./utils/firebaseUtil";
 import { useDispatch } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function App() {
   return (
     <>
       <Router />
+      <ToastContainer />
     </>
   );
 }
