@@ -9,10 +9,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../utils/firebaseUtil";
+import { clearCurrentUser } from "../redux/actions/authActions";
+
 const MyNavbar = () => {
   // const currentUser = true;
   const { currentUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -28,6 +32,8 @@ const MyNavbar = () => {
 
   const handleLogout = () => {
     setAnchorEl(null);
+    logout();
+    dispatch(clearCurrentUser());
   };
 
   const handleRegister = () => {

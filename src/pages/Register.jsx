@@ -7,10 +7,33 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { signup } from "../utils/firebaseUtil";
+
 const Register = () => {
+  const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.auth);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
+
+  const handleSingUp = () => {
+    signup(email, password)
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
   return (
     <Container maxWidth="sm">
       <Box
@@ -61,7 +84,12 @@ const Register = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <Button variant="contained" color="primary" fullWidth>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSingUp}
+                fullWidth
+              >
                 Register
               </Button>
             </Grid>
