@@ -1,15 +1,27 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import image from "../assets/loading.gif";
 import getNews from "../redux/thunk/newsThunk";
 import Cards from "../components/Cards";
-
+import { Pagination } from "@mui/material";
+import usePagination from "../components/Pagination";
 const News = () => {
   const dispatch = useDispatch();
   const { newsList } = useSelector((state) => state.news);
   const loading = useSelector((state) => state.app.loading);
+
+  let [page, setPage] = useState(1);
+  const PER_PAGE = 6;
+
+  const count = Math.ceil(newsList.length / PER_PAGE);
+  const _DATA = usePagination(newsList, PER_PAGE);
+
+  const handleChange = (e, p) => {
+    setPage(p);
+    _DATA.jump(p);
+  };
 
   useEffect(() => {
     dispatch(getNews); // we are giving async function to dispatch as a parameter.
@@ -34,7 +46,7 @@ const News = () => {
           flexWrap="wrap"
           style={{ marginTop: "4rem" }}
         >
-          {newsList.map((item, index) => (
+          {_DATA.currentData().map((item, index) => (
             <Card sx={{ maxWidth: 345, m: 5, maxHeight: 600 }} key={index}>
               <Cards
                 urlToImage={item.urlToImage}
@@ -46,6 +58,16 @@ const News = () => {
           ))}
         </Box>
       )}
+      <Box display="flex" justifyContent="center">
+        <Pagination
+          count={count}
+          size="large"
+          page={page}
+          shape="rounded"
+          color="secondary"
+          onChange={handleChange}
+        />
+      </Box>
     </>
   );
 };
