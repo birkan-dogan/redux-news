@@ -2,8 +2,20 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { CardMedia } from "@mui/material";
+import { Box, CardMedia } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toastWarnNotify } from "../utils/toastNotify";
+import SendIcon from "@mui/icons-material/Send";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 const Cards = ({ urlToImage, title, content, url }) => {
+  const { currentUser } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const seeDetails = () => {
+    navigate("/login");
+    toastWarnNotify("Please login to see details");
+  };
+
   return (
     <>
       <CardMedia
@@ -25,10 +37,40 @@ const Cards = ({ urlToImage, title, content, url }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small" href={url} target="_blank">
-          Detail
-        </Button>
+        {currentUser ? (
+          <>
+            <Button
+              size="small"
+              variant="contained"
+              color="success"
+              endIcon={<ThumbUpIcon />}
+              style={{ marginRight: "1rem" }}
+            >
+              Share
+            </Button>
+            <Button
+              size="small"
+              variant="contained"
+              color="success"
+              href={url}
+              target="_blank"
+              endIcon={<SendIcon />}
+            >
+              Detail
+            </Button>
+          </>
+        ) : (
+          <Box display="flex" sx={{ width: 1 }} justifyContent="center">
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              onClick={seeDetails}
+            >
+              Please login to see details
+            </Button>
+          </Box>
+        )}
       </CardActions>
     </>
   );
