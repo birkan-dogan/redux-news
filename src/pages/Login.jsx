@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../utils/firebaseUtil";
+import { login, loginWithGoogle } from "../utils/firebaseUtil";
 
 const Login = () => {
   // const currentUser = true;
@@ -29,6 +29,10 @@ const Login = () => {
     login(email, password)
       .then(() => navigate("/"))
       .catch((error) => alert(error));
+  };
+
+  const handleGoogleSingIn = () => {
+    loginWithGoogle();
   };
 
   return (
@@ -91,7 +95,12 @@ const Login = () => {
               </Button>
             </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" color="secondary" fullWidth>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleGoogleSingIn}
+                fullWidth
+              >
                 CONTINUE WITH GOOGLE
               </Button>
             </Grid>

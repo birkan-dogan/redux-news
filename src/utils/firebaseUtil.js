@@ -4,18 +4,22 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 
 const app = initializeApp({
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
   projectId: process.env.REACT_APP_projectId,
+  databaseURL: process.env.REACT_APP_databaseURL,
   storageBucket: process.env.REACT_APP_storageBucket,
   messagingSenderId: process.env.REACT_APP_messagingSenderId,
   appId: process.env.REACT_APP_appId,
 });
 
 export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();
 
 // create new user
 export const signup = (email, password) => {
@@ -30,4 +34,13 @@ export const login = (email, password) => {
 // logout process
 export const logout = () => {
   signOut(auth);
+};
+
+export const loginWithGoogle = () => {
+  googleProvider.setCustomParameters({ prompt: "select_account" });
+  signInWithPopup(auth, googleProvider)
+    .then((result) => {})
+    .catch((error) => {
+      console.log(error);
+    });
 };
