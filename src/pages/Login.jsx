@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { login } from "../utils/firebaseUtil";
 
 const Login = () => {
   // const currentUser = true;
@@ -17,11 +18,19 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
   useEffect(() => {
     if (currentUser) {
       navigate("/");
     }
   }, [currentUser, navigate]);
+
+  const handleLogin = () => {
+    login(email, password)
+      .then(() => navigate("/"))
+      .catch((error) => alert(error));
+  };
+
   return (
     <Container maxWidth="sm">
       <Box
@@ -72,7 +81,12 @@ const Login = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <Button variant="contained" color="primary" fullWidth>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleLogin}
+                fullWidth
+              >
                 Login
               </Button>
             </Grid>
