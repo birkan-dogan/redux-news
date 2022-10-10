@@ -25,7 +25,6 @@ export const googleProvider = new GoogleAuthProvider();
 
 // create new user
 export const signup = (email, password) => {
-  toastSuccessNotify("Registered Successfully");
   return createUserWithEmailAndPassword(auth, email, password);
 };
 

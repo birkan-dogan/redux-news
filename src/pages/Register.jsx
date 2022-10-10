@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../utils/firebaseUtil";
+import { toastErrorNotify, toastSuccessNotify } from "../utils/toastNotify";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -28,9 +29,10 @@ const Register = () => {
     signup(email, password)
       .then(() => {
         navigate("/");
+        toastSuccessNotify("Registered Successfully");
       })
       .catch((error) => {
-        alert(error);
+        toastErrorNotify(error.message);
       });
   };
 
